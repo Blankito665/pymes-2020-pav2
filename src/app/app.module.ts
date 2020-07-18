@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
 import { InicioComponent } from './component/inicio/inicio.component';
 import { ArticulosFamiliasComponent } from './component/articulos-familias/articulos-familias.component';
 import { MockArticulosFamiliasService } from './services/mock-articulos-familias.service';
+import { ArticulosFamiliasService } from './services/articulos-familias.service';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule ],
+  imports:      [ BrowserModule, FormsModule, HttpClientModule ],
   declarations: [ AppComponent, HelloComponent, InicioComponent, ArticulosFamiliasComponent ],
   bootstrap:    [ AppComponent ],
-  providers: [MockArticulosFamiliasService]
+  providers: [MockArticulosFamiliasService, ArticulosFamiliasService]
 })
 export class AppModule { }

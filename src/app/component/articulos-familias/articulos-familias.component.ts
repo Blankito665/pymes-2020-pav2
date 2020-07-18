@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloFamilia, ArticulosFamilias } from '../../models/articulo-familia';
+import { MockArticulosFamiliasService } from "../../services/mock-articulos-familias.service";
+import { ArticulosFamiliasService } from "../../services/articulos-familias.service";
 
 @Component({
   selector: 'app-articulos-familias',
@@ -7,12 +9,25 @@ import { ArticuloFamilia, ArticulosFamilias } from '../../models/articulo-famili
   styleUrls: ['./articulos-familias.component.css']
 })
 export class ArticulosFamiliasComponent implements OnInit {
-  Items = ArticulosFamilias;
+  Items: ArticuloFamilia[] = [];
   Titulo = "Articulos Familias"
 
-  constructor() { }
+  constructor(
+    // trae array del modelo
+    private articulosFamiliasService:  MockArticulosFamiliasService
+    // trae el array desde una webapi
+    //private articulosFamiliasService:  ArticulosFamiliasService
+  ) { }
 
   ngOnInit() {
+    this.GetFamiliasArticulos();
+  }
+
+    GetFamiliasArticulos() {
+    this.articulosFamiliasService.get()
+    .subscribe((res:ArticuloFamilia[]) => {
+      this.Items = res;
+    });
   }
 
 }
