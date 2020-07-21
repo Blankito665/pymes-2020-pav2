@@ -6,7 +6,8 @@ import { ArticulosFamiliasService } from "../../services/articulos-familias.serv
 @Component({
   selector: 'app-articulos-familias',
   templateUrl: './articulos-familias.component.html',
-  styleUrls: ['./articulos-familias.component.css']
+  styleUrls: ['./articulos-familias.component.css'],
+  providers: [ArticulosFamiliasService, MockArticulosFamiliasService]
 })
 export class ArticulosFamiliasComponent implements OnInit {
   Items: ArticuloFamilia[] = [];
@@ -24,10 +25,22 @@ export class ArticulosFamiliasComponent implements OnInit {
   }
 
     GetFamiliasArticulos() {
-    this.articulosFamiliasService.get()
-    .subscribe((res:ArticuloFamilia[]) => {
-      this.Items = res;
-    });
+    this.articulosFamiliasService.get().subscribe(
+      {
+          next: ArticulosFamilias => this.Items = ArticulosFamilias,
+          //error: err => window.alert(err.statusText)
+      }
+      );
   }
 
 }
+
+
+
+ // ngOnInit() {
+ //   this.GetFamiliasArticulos();
+ // }
+
+   // GetFamiliasArticulos() {
+ //   this.articulosFamiliasService.get().subscribe((res:ArticuloFamilia[]) => {this.Items = res;});
+// }
