@@ -19,6 +19,7 @@ import { MockArticulosService } from './services/mock-articulos.service';
 import { ArticulosService } from './services/articulos.service';
 import { ModalDialogComponent } from './component/modal-dialog/modal-dialog.component';
 import { ModalDialogService } from './services/modal-dialog.service';
+import { MyInterceptor } from "./shared/my-interceptor";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpClientModule,ReactiveFormsModule, NgbModalModule,  NgbPaginationModule,  RouterModule.forRoot([
