@@ -5,7 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';  
 import { ReactiveFormsModule } from "@angular/forms";
-import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbPaginationModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
@@ -18,9 +18,10 @@ import { ArticulosComponent } from './component/articulos/articulos.component';
 import { MockArticulosService } from './services/mock-articulos.service';
 import { ArticulosService } from './services/articulos.service';
 import { ModalDialogComponent } from './component/modal-dialog/modal-dialog.component';
+import { ModalDialogService } from './services/modal-dialog.service';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpClientModule,ReactiveFormsModule, NgbPaginationModule,  RouterModule.forRoot([
+  imports:      [ BrowserModule, FormsModule, HttpClientModule,ReactiveFormsModule, NgbModalModule,  NgbPaginationModule,  RouterModule.forRoot([
       { path: '', redirectTo: '/inicio', pathMatch: 'full' },
       { path: 'inicio', component: InicioComponent },
       { path: 'articulosfamilias', component: ArticulosFamiliasComponent },
@@ -28,7 +29,8 @@ import { ModalDialogComponent } from './component/modal-dialog/modal-dialog.comp
     ])
  ],
   declarations: [ AppComponent, HelloComponent, InicioComponent, ArticulosFamiliasComponent, MenuComponent, ArticulosComponent, ModalDialogComponent ],
+  entryComponents: [ModalDialogComponent],
   bootstrap:    [ AppComponent ],
-  providers: [MockArticulosFamiliasService, ArticulosFamiliasService, MockArticulosService, ArticulosService]
+  providers: [MockArticulosFamiliasService, ArticulosFamiliasService, MockArticulosService, ArticulosService, ModalDialogService]
 })
 export class AppModule { }

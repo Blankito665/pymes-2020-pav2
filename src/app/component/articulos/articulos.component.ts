@@ -7,6 +7,7 @@ import { MockArticulosService } from "../../services/mock-articulos.service";
 import { MockArticulosFamiliasService } from "../../services/mock-articulos-familias.service";
 import { ArticulosService } from "../../services/articulos.service";
 import { ArticulosFamiliasService } from "../../services/articulos-familias.service";
+import { ModalDialogService } from "../../services/modal-dialog.service";
 
 @Component({
   selector: "app-articulos",
@@ -49,6 +50,7 @@ export class ArticulosComponent implements OnInit {
     private articulosFamiliasService: MockArticulosFamiliasService,
     //private articulosService: ArticulosService,
     //private articulosFamiliasService: ArticulosFamiliasService,
+    private modalDialogService: ModalDialogService
   )
  {}
 
@@ -91,16 +93,18 @@ export class ArticulosComponent implements OnInit {
   }
   
   // Buscar segun los filtros, establecidos en FormReg
- Buscar() {
+  Buscar() {
     this.SinBusquedasRealizadas = false;
-
+    this.modalDialogService.BloquearPantalla();
     this.articulosService
       .get(this.FormFiltro.value.Nombre, this.FormFiltro.value.Activo, this.Pagina)
       .subscribe((res: any) => {
         this.Lista = res.Lista;
         this.RegistrosTotal = res.RegistrosTotal;
+        this.modalDialogService.DesbloquearPantalla();
       });
   }
+
 
   // Obtengo un registro especifico según el Id
   BuscarPorId(Dto, AccionABMC) {
@@ -126,7 +130,7 @@ export class ArticulosComponent implements OnInit {
   // comienza la modificacion, luego la confirma con el metodo Grabar
   Modificar(Dto) {
     if (!Dto.Activo) {
-      alert("No puede modificarse un registro Inactivo.");
+      this.modalDialogService.Alert("No puede modificarse un registro Inactivo.");
       return;
     }
     this.BuscarPorId(Dto, "M");
@@ -180,19 +184,23 @@ export class ArticulosComponent implements OnInit {
 
   // representa la baja logica 
   ActivarDesactivar(Dto) {
-    var resp = confirm(
+    this.modalDialogService.Confirm(
       "Esta seguro de " +
         (Dto.Activo ? "desactivar" : "activar") +
-        " este registro?");
-    if (resp === true)
-    {
-     this.articulosService  
+        " este registro?",
+      undefined,
+      undefined,
+      undefined,
+      () =>
+        this.articulosService  
           .delete(Dto.IdArticulo)
           .subscribe((res: any) => 
             this.Buscar()
-          );
-    }
+          ),
+      null
+    );
   }
+
 
 
   // Volver desde Agregar/Modificar
@@ -201,7 +209,7 @@ export class ArticulosComponent implements OnInit {
   }
 
   ImprimirListado() {
-    alert('Sin desarrollar...');
+    this.modalDialogService.Alert("Sin desarrollar...");
   }
 
   GetArticuloFamiliaNombre(Id){
